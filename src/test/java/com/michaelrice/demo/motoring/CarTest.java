@@ -22,4 +22,8 @@ public class CarTest {
         assertEquals(Objects.hashCode(make, model), saab.hashCode());
     }
 
+    @Test
+    public void testToString() {
+        assertEquals("Car{make=Saab, model=9-3}", new Car("Saab", "9-3").toString());
+    }
 }

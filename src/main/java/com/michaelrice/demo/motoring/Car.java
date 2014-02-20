@@ -27,4 +27,11 @@ public class Car {
         return Objects.hashCode(make, model);
     }
 
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("make", make)
+                .add("model", model)
+                .toString();
+    }
 }
