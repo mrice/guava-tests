@@ -27,4 +27,9 @@ public class CarTest {
         Car nullCar = new Car(null, null);
     }
 
+    @Test
+    public void testToString() {
+        assertEquals("Car{make=Saab, model=9-3}", new Car("Saab", "9-3").toString());
+    }
+
 }
