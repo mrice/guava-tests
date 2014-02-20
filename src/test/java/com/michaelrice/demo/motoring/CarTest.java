@@ -22,4 +22,9 @@ public class CarTest {
         assertEquals(Objects.hashCode(make, model), saab.hashCode());
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testPreconditions() {
+        Car nullCar = new Car(null, null);
+    }
+
 }

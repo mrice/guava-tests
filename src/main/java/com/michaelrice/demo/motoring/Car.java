@@ -1,12 +1,15 @@
 package com.michaelrice.demo.motoring;
 
 import com.google.common.base.Objects;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Car {
     final String make;
     final String model;
 
     public Car(final String make, final String model) {
+        checkNotNull(make, "Car cannot have a null make");
+        checkNotNull(model, "Car cannot have a null model");
         this.make = make;
         this.model = model;
     }
