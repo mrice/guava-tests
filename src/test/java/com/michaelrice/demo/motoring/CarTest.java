@@ -23,8 +23,22 @@ public class CarTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testPreconditions() {
+    public void testNullPreconditionChecks() {
         Car nullCar = new Car(null, null);
+    }
+
+    @Test
+    public void testPreconditionValidArguments() {
+        Car validCar = new Car("saab", "9-3");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPreconditionInvalidMakeArgument() {
+        Car invalidCar = new Car("to", "9-3");
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testPreconditionInvalidModelArgument() {
+        Car invalidCar = new Car("saab", "to");
     }
 
     @Test

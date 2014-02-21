@@ -1,6 +1,8 @@
 package com.michaelrice.demo.motoring;
 
 import com.google.common.base.Objects;
+
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Car {
@@ -8,10 +10,10 @@ public class Car {
     final String model;
 
     public Car(final String make, final String model) {
-        checkNotNull(make, "Car cannot have a null make");
-        checkNotNull(model, "Car cannot have a null model");
-        this.make = make;
-        this.model = model;
+        this.make = checkNotNull(make, "Car cannot have a null make");
+        checkArgument(make.length() >= 3, "Car's make cannot be less than three (3) characters. Was: %s", make);
+        this.model = checkNotNull(model, "Car cannot have a null model");
+        checkArgument(model.length() >= 3, "Car's model cannot be less than three (3) characters. Was: %s", model);
     }
 
     @Override
