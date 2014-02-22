@@ -1,21 +1,57 @@
 package com.michaelrice.demo.motoring;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Optional;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 public class Car {
+
     final String make;
     final String model;
 
-    public Car(final String make, final String model) {
-        this.make = checkNotNull(make, "Car cannot have a null make");
-        checkArgument(make.length() >= 3, "Car's make cannot be less than three (3) characters. Was: %s", make);
-        this.model = checkNotNull(model, "Car cannot have a null model");
-        checkArgument(model.length() >= 3, "Car's model cannot be less than three (3) characters. Was: %s", model);
+    Map<PassengerPosition, Passenger> passengers = new HashMap<PassengerPosition, Passenger>();
+
+    public static Car newCar(final String make, final String model) {
+        checkNotNull(make, "Car cannot have a null make");
+        checkNotNull(model, "Car cannot have a null model");
+        checkArgument(make.length() >= 3, "Car's make cannot be less than three (3) characters; was: %s", make);
+        checkArgument(model.length() >= 3, "Car's model cannot be less than three (3) characters; was: %s", model);
+        return new Car(make, model);
     }
 
+    Car(final String make, final String model) {
+        this.make = make;
+        this.model = model;
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void addPassenger(PassengerPosition position, Passenger passenger) {
+        checkNotNull(passenger);
+        checkState((!passengers.containsKey(position)), "There is already a passenger in the %s position", position);
+        passengers.put(position, passenger);
+    }
+
+    public Optional<Passenger> getPassenger(PassengerPosition position) {
+        if (passengers.containsKey(position) && passengers.get(position) != null)
+            return Optional.of(passengers.get(position));
+        else
+            return Optional.absent();
+    }
+
+    //TODO revisit this to take into account passenger information
     @Override
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof Car) {
@@ -27,6 +63,7 @@ public class Car {
         }
     }
 
+    //TODO revisit this to take into account passenger information
     @Override
     public int hashCode() {
         return Objects.hashCode(make, model);
@@ -34,9 +71,9 @@ public class Car {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
-                .add("make", make)
-                .add("model", model)
-                .toString();
+        Objects.ToStringHelper stringHelper = Objects.toStringHelper(this);
+        stringHelper = stringHelper.add("make", make).add("model", model);
+        //TODO plug in the passengers
+        return stringHelper.toString();
     }
 }
