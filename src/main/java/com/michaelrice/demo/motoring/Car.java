@@ -40,7 +40,8 @@ public class Car {
 
     public void addPassenger(PassengerPosition position, Passenger passenger) {
         checkNotNull(passenger);
-        checkState((!passengers.containsKey(position)), "There is already a passenger in the %s position", position);
+        checkState((!passengers.containsKey(position)), "There is already a passenger in the %s position (%s)",
+                position, passengers.get(position));
         passengers.put(position, passenger);
     }
 
@@ -73,7 +74,9 @@ public class Car {
     public String toString() {
         Objects.ToStringHelper stringHelper = Objects.toStringHelper(this);
         stringHelper = stringHelper.add("make", make).add("model", model);
-        //TODO plug in the passengers
+        for (PassengerPosition position : passengers.keySet()) {
+            stringHelper.add(position.toString(), passengers.get(position));
+        }
         return stringHelper.toString();
     }
 }

@@ -23,6 +23,10 @@ public class Passenger {
         return this.gender;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return Objects.toStringHelper(this)

@@ -59,8 +59,24 @@ public class CarTest {
     }
 
     @Test
-    public void testToString() {
+    public void testToStringNoPassengers() {
         assertEquals("Car{make=Saab, model=9-3}", Car.newCar("Saab", "9-3").toString());
+    }
+
+    @Test
+    public void testToStringWithPassengers() {
+        String make = "Saab", model = "9-3";
+        String passenger1 = "michael", passenger2 = "mia";
+
+        Car c = Car.newCar(make, model);
+        c.addPassenger(PassengerPosition.DRIVER, Passenger.newPassenger("male", passenger1));
+        c.addPassenger(PassengerPosition.FRONT_PASSENGER, Passenger.newPassenger("female", passenger2));
+
+        String toString = c.toString();
+        assertTrue(toString.contains(make));
+        assertTrue(toString.contains(passenger1));
+        assertTrue(toString.contains(passenger2));
+
     }
 
     @Test
@@ -84,4 +100,12 @@ public class CarTest {
         assertTrue(saab.getPassenger(PassengerPosition.FRONT_PASSENGER).isPresent()==false);
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void testDuplicatePassenger() {
+        Car saab = Car.newCar("saab", "9-3");
+        Passenger p = Passenger.newPassenger("male", "michael");
+        Passenger q = Passenger.newPassenger("female", "mia");
+        saab.addPassenger(PassengerPosition.FRONT_PASSENGER, p);
+        saab.addPassenger(PassengerPosition.FRONT_PASSENGER, q);
+    }
 }
